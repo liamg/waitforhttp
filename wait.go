@@ -9,9 +9,17 @@ import (
 	"github.com/avast/retry-go"
 )
 
+// Wait for the supplied server to start listening and return nil, or return error if timeout is reached
 func Wait(server *http.Server, timeout time.Duration) error {
 
-	delay := timeout / 100
+	delay := time.Millisecond * 50
+	var attempts uint
+
+	if timeout < delay {
+		attempts = 1
+	} else {
+		attempts = uint((timeout / delay) + 1)
+	}
 
 	if server == nil {
 		return fmt.Errorf("server cannot be nil")
@@ -26,7 +34,7 @@ func Wait(server *http.Server, timeout time.Duration) error {
 			_ = conn.Close()
 			return nil
 		},
-		retry.Attempts(100),
+		retry.Attempts(attempts),
 		retry.DelayType(
 			func(n uint, config *retry.Config) time.Duration {
 				return delay
