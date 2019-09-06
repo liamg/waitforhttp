@@ -1,4 +1,5 @@
 # waitforhttp
+[![Travis](https://img.shields.io/travis/liamg/waitforhttp.svg?style=flat-square)](https://travis-ci.org/liamg/waitforhttp)
 
 Waits for an HTTP server to be serving before returning.
 
