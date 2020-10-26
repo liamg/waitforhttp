@@ -36,7 +36,7 @@ func Wait(server *http.Server, timeout time.Duration) error {
 		},
 		retry.Attempts(attempts),
 		retry.DelayType(
-			func(n uint, config *retry.Config) time.Duration {
+			func(n uint, err error, config *retry.Config) time.Duration {
 				return delay
 			},
 		),
